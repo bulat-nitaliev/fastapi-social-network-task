@@ -1,0 +1,9 @@
+.vscode/
+.idea/
+.migrations/
+venv/
+.env
+Thumbs.db
+__pycache__/
+*.py[cod]
+*$py.class
