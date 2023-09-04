@@ -26,7 +26,9 @@ async def get_all_post(session: AsyncSession = Depends(get_async_session)):
     
 
 @post_router.post('/')
-async def add_post(new_post: PostCreate, session: AsyncSession = Depends(get_async_session),user: User=Depends(current_user)):
+async def add_post(new_post: PostCreate, 
+                   session: AsyncSession = Depends(get_async_session),
+                   user: User=Depends(current_user)):
     stmt = insert(post).values(user_id=user.id,**new_post.dict())
     await session.execute(stmt)
     await session.commit()

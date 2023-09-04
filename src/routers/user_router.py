@@ -1,15 +1,36 @@
-from fastapi import APIRouter, Depends, HTTPException, status
-from typing import List, Optional
-from src.auth.schemas import UserRead
+from fastapi import APIRouter, Depends, HTTPException, status,Response
+from typing import List, Optional, Any, Union
+from src.auth.schemas import UserRead, Token
 from sqlalchemy.ext.asyncio import AsyncSession
 from src.database import get_async_session
 from sqlalchemy import insert, select, update, delete
-from src.auth.models import user
-
+from src.auth.models import user, User
+from fastapi.security import OAuth2PasswordRequestForm
+from src.auth.manager import get_user_manager
+from fastapi_users import BaseUserManager
+from datetime import timedelta
+from fastapi_users.jwt import generate_jwt, SecretType, JWT_ALGORITHM
 
 
 user_router = APIRouter(prefix='/users',tags=['users'])
 
+
+# @user_router.post("/", status_code=200)
+# def singin_access_token(
+#     form_data: OAuth2PasswordRequestForm = Depends(), user_tools: BaseUserManager= Depends()
+# ) -> Any:
+#     """
+#     Providing access token OAuth2.
+#     """
+#     user = user_tools.authenticate(form_data.username, form_data.password)
+#     if not user:
+#         raise HTTPException(
+#             status_code=status.HTTP_401_UNAUTHORIZED,
+#             detail="Incorrect username or password",
+#         )
+#     access_token_expires = timedelta(minutes=30)
+#     access_token = generate_jwt(data={"sub": user.email},secret=SecretType,lifetime_seconds=access_token_expires,algorithm=J)
+#     return {"access_token": access_token, "token_type": "cookie"}
 
 @user_router.get('/',response_model=List[UserRead])
 async def get_all_users(session:AsyncSession=Depends(get_async_session)):

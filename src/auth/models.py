@@ -1,10 +1,9 @@
-from sqlalchemy import create_engine, Table, Column, Integer, String, ForeignKey, MetaData, TIMESTAMP, Boolean, Text
-from sqlalchemy.orm import declarative_base, sessionmaker
+from sqlalchemy import Table, Column, Integer, String, ForeignKey, TIMESTAMP, Boolean, Text
 from datetime import datetime
 from fastapi_users.db import SQLAlchemyBaseUserTable, SQLAlchemyUserDatabase
 from sqlalchemy.orm import DeclarativeBase
+from src.database import metadata
 
-metadata = MetaData()
 
 
 user= Table(
@@ -32,17 +31,6 @@ post = Table(
     Column('user_id', Integer, ForeignKey(user.c.id))
 )
 
-# reaction_like = Table(
-#     "reaction_likes",
-#     metadata,
-#     Column("post_id",Integer,ForeignKey(post.c.id, ondelete="CASCADE"),primary_key=True),
-#     Column("user_id",Integer,ForeignKey(user.c.id), primary_key=True))
-
-# reaction_dislike = Table(
-#     "reaction_dislikes",
-#     metadata,
-#     Column("post_id",Integer,ForeignKey(post.c.id, ondelete="CASCADE"),primary_key=True),
-#     Column("user_id",Integer,ForeignKey(user.c.id), primary_key=True))
 
 
 class Base(DeclarativeBase):

@@ -1,0 +1,5 @@
+[tool.pytest.ini_options]
+pythonpath = [
+  ".", "fast api task",
+]
+asyncio_mode="auto"
